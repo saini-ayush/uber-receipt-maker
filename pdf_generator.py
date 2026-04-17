@@ -315,79 +315,73 @@ def generate(form_data: dict) -> bytes:
     y = H - M
 
     # ── Header: Uber wordmark + date/time ───────────────────
-    c.setFont(B, 20)
+    c.setFont(B, 17)
     c.setFillColor(C_DARK)
-    c.drawString(M, y - 22, "Uber")
+    c.drawString(M, y - 18, "Uber")
 
-    c.setFont(F, 9)
+    c.setFont(F, 8.5)
     c.setFillColor(C_GRAY)
-    c.drawRightString(W - M, y - 13, form_data.get("receipt_date", ""))
-    c.drawRightString(W - M, y - 24, form_data.get("receipt_time", ""))
-    y -= 38
+    c.drawRightString(W - M, y - 11, form_data.get("receipt_date", ""))
+    c.drawRightString(W - M, y - 22, form_data.get("receipt_time", ""))
+    y -= 32
 
     # ── Uber One subscription badge (actual logo image) ──────
     if is_u1:
         logo_path = os.path.join(ICONS_DIR, "uber_one_logo.png")
-        LOGO_H = 14          # 14 pt tall — matches real receipt badge size
+        LOGO_H = 12          # 12 pt tall — matches real receipt badge size
         w = _draw_image(c, logo_path, M, y, LOGO_H)
         if w == 0:           # fallback if image missing
-            c.setFont(B, 10)
+            c.setFont(B, 9)
             c.setFillColor(C_AMBER)
-            c.drawString(M, y - 11, "\u2295  Uber One")
-        y -= LOGO_H + 8
-
-    _hr(c, y)
-    y -= 24
+            c.drawString(M, y - 10, "\u2295  Uber One")
+        y -= LOGO_H + 18
 
     # ── Greeting ─────────────────────────────────────────────
     name = form_data.get("rider_name", "")
-    c.setFont(B, 28)
+    c.setFont(B, 24)
     c.setFillColor(C_DARK)
-    c.drawString(M, y - 28, f"Thanks for riding, {name}")
-    y -= 40
+    c.drawString(M, y - 24, f"Thanks for riding, {name}")
+    y -= 32
 
     c.setFont(F, 10)
     c.setFillColor(C_GRAY)
     c.drawString(M, y - 13, f"We hope you enjoyed your ride {_time_greeting(form_data.get('receipt_time',''))}.")
-    y -= 26
-
-    _hr(c, y)
-    y -= 20
+    y -= 30
 
     # ── Total ────────────────────────────────────────────────
-    c.setFont(B, 13)
+    c.setFont(B, 14)
     c.setFillColor(C_DARK)
-    c.drawString(M, y - 15, "Total")
+    c.drawString(M, y - 16, "Total")
     c.setFont(B, 22)
     c.drawRightString(W - M, y - 18, f"\u20b9{total:.2f}")
-    y -= 32
+    y -= 30
 
     _hr(c, y)
     y -= 14
 
     # ── Uber One credits earned box ──────────────────────────
     if credits > 0:
-        BOX_H  = 38
-        ICON_H = 16          # match real receipt — small icon
-        PAD    = 12
+        BOX_H  = 42
+        ICON_H = 18
+        PAD_L  = 10
+        PAD_T  = 9
 
         c.setFillColor(C_ABGND)
-        c.roundRect(M, y - BOX_H, CW, BOX_H, 5, stroke=0, fill=1)
+        c.roundRect(M, y - BOX_H, CW, BOX_H, 6, stroke=0, fill=1)
 
-        # Icon centred vertically
-        icon_top = y - (BOX_H - ICON_H) / 2
+        # Icon top-aligned with amount text
         icon_w   = _draw_image(c, os.path.join(ICONS_DIR, "uber_one_icon.png"),
-                               M + PAD, icon_top, ICON_H)
+                               M + PAD_L, y - PAD_T, ICON_H)
 
-        text_x = M + PAD + (icon_w or 0) + 8
+        text_x = M + PAD_L + (icon_w or 0) + 8
         c.setFont(B, 11)
         c.setFillColor(C_AMBER)
-        c.drawString(text_x, y - 17, f"\u20b9{credits:.2f}")
-        c.setFont(F, 7.5)
+        c.drawString(text_x, y - PAD_T - 10, f"\u20b9{credits:.2f}")
+        c.setFont(F, 8)
         c.setFillColor(C_ABLBL)
-        c.drawString(text_x, y - 27, "Uber One credits earned")
+        c.drawString(text_x, y - PAD_T - 23, "Uber One credits earned")
 
-        y -= BOX_H + 10
+        y -= BOX_H + 8
 
     # ── Fare rows ────────────────────────────────────────────
     if vtype == "Uber Go":
@@ -405,52 +399,65 @@ def generate(form_data: dict) -> bytes:
         c.setFillColor(C_DARK)
         c.drawString(M, y - 14, label)
         c.drawRightString(W - M, y - 14, amount)
-        y -= 26
-        _hr(c, y, lw=0.35)
-        y -= 3
+        y -= 22
 
-    y -= 14
+    y -= 10
+
+    _hr(c, y)
+    y -= 18
 
     # ── Payments ─────────────────────────────────────────────
-    c.setFont(B, 12)
+    c.setFont(B, 13)
     c.setFillColor(C_DARK)
     c.drawString(M, y - 14, "Payments")
-    y -= 26
+    y -= 24
 
     pm        = form_data.get("payment_method", "Cash")
     icon_file = "cash.png" if pm == "Cash" else "upi.png"
-    PAY_H     = 22
+    PAY_H     = 20
     icon_w    = _draw_image(c, os.path.join(ICONS_DIR, icon_file), M, y, PAY_H)
     tx        = M + (icon_w + 8 if icon_w else 0)
 
-    # Method + amount on the same baseline as the icon centre
+    # Method name + amount on top row
     c.setFont(B, 10)
     c.setFillColor(C_DARK)
-    c.drawString(tx, y - 14, pm)
-    c.drawRightString(W - M, y - 14, f"\u20b9{total:.2f}")
-    y -= PAY_H + 2                 # tight spacing
+    c.drawString(tx, y - 10, pm)
+    c.drawRightString(W - M, y - 10, f"\u20b9{total:.2f}")
 
+    # Timestamp directly below method, tight spacing
     if form_data.get("payment_timestamp"):
-        c.setFont(F, 9)
+        c.setFont(F, 8.5)
         c.setFillColor(C_GRAY)
-        c.drawString(tx, y - 11, str(form_data["payment_timestamp"]))
-        y -= 16
+        c.drawString(tx, y - 22, str(form_data["payment_timestamp"]))
 
-    y -= 12
+    y -= PAY_H + 14
     _hr(c, y)
-    y -= 14
+    y -= 16
 
     # ── Disclaimer paragraphs ─────────────────────────────────
-    c.setFont(F, 8.5)
-    c.setFillColor(C_GRAY)
     LH = 12
 
     if vtype == "Uber Go":
+        # "Visit the trip page..." link line
+        link_text = "Visit the trip page"
+        tail_text = " for more information, including invoices (where available)."
+        c.setFont(F, 9)
+        c.setFillColor(C_BLUE)
+        c.drawString(M, y - 11, link_text)
+        link_w = pdfmetrics.stringWidth(link_text, F, 9)
+        # underline link
+        c.setStrokeColor(C_BLUE)
+        c.setLineWidth(0.4)
+        c.line(M, y - 12.5, M + link_w, y - 12.5)
+        c.setFillColor(C_DARK)
+        c.drawString(M + link_w, y - 11, tail_text)
+        y -= LH + 10
+
         tc  = float(form_data.get("trip_charge") or 0)
         gst = calc_gst(tc)
         paras = [
             f"The total of \u20b9{total:.2f} has a GST of \u20b9{gst:.2f} included.",
-            "Fares are inclusive of GST. Please download the tax invoice for a full breakdown.",
+            "Fares are inclusive of GST. Please download the tax invoice from the trip detail page for a full tax breakdown.",
         ]
     else:
         paras = [
@@ -465,11 +472,13 @@ def generate(form_data: dict) -> bytes:
              "accordance with local laws and regulations."),
         ]
 
+    c.setFont(F, 9)
+    c.setFillColor(C_DARK if vtype == "Uber Go" else C_GRAY)
     for para in paras:
-        for ln in _wrap(para, F, 8.5, CW):
+        for ln in _wrap(para, F, 9, CW):
             c.drawString(M, y - 11, ln)
             y -= LH
-        y -= 5
+        y -= 6
 
     # ── "Trip details" section heading ───────────────────────
     y -= 6

@@ -22,7 +22,7 @@ assets/maps/
 *.pdf
 
 # Scratch comparison screenshots
-# *.png
+*.png
 
 # macOS
 .DS_Store
