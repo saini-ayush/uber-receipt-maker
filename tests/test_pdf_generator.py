@@ -81,3 +81,35 @@ def test_generate_uber_go_includes_gst_note():
     reader = PdfReader(io.BytesIO(pdf_bytes))
     text = "".join(p.extract_text() for p in reader.pages)
     assert "GST" in text
+
+
+def test_generate_uber_one_renders_logo_image():
+    """With is_uber_one=True, page 1 must contain 3 image XObjects:
+    the Uber One logo (wide, ~280:96 aspect), the Uber One credits box
+    icon (~1:1 square), and the Cash payment icon. Currently the logo
+    falls back to amber text because _draw_image silently swallows the
+    real drawImage call for this PNG — this test is the regression guard."""
+    form = {**UBER_GO_FORM,
+            "is_uber_one": True,
+            "uber_one_credits": 24.80}
+    pdf_bytes = pdf_generator.generate(form)
+    reader = PdfReader(io.BytesIO(pdf_bytes))
+    page1 = reader.pages[0]
+    resources = page1.get("/Resources") or {}
+    xobjects = resources.get("/XObject") or {}
+    xobj_dict = xobjects.get_object() if hasattr(xobjects, "get_object") else xobjects
+    image_objs = [
+        xobj_dict[k].get_object() for k in xobj_dict
+        if xobj_dict[k].get_object().get("/Subtype") == "/Image"
+    ]
+    # Expect all three images: logo (wide), credits icon (square), cash (square)
+    assert len(image_objs) >= 3, (
+        f"Expected >= 3 images on page 1 (Uber One logo, credits icon, cash), "
+        f"found {len(image_objs)}"
+    )
+    # Also verify at least one wide-aspect image exists (that's the logo)
+    wide_images = [im for im in image_objs
+                   if int(im.get("/Width", 0)) >= 2 * int(im.get("/Height", 1))]
+    assert wide_images, (
+        "No wide-aspect image found on page 1 — Uber One logo is missing"
+    )

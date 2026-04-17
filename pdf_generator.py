@@ -1,12 +1,11 @@
-"""Uber-style receipt PDF generator — 2-page A4 matching real Uber receipts."""
+"""Uber-style receipt PDF generator — 2-page US Letter matching real Uber receipts."""
 import io
 import math
 import os
 import urllib.request
 
 from reportlab.lib import colors
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.units import mm
+from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas as pdf_canvas
@@ -24,9 +23,9 @@ C_ABGND  = colors.HexColor("#F3F3F3")   # lighter warm beige — matches real re
 C_ABLBL  = colors.HexColor("#8B6914")
 C_BLUE   = colors.HexColor("#276EF1")
 
-PAGE_W, PAGE_H = A4
-M  = 10 * mm        # ~10 mm — matches real Uber receipt margins
-CW = PAGE_W - 2 * M
+PAGE_W, PAGE_H = letter          # 612 × 792 pt — matches original Uber receipt
+M  = 43.5                         # ~15.3 mm — matches original margin exactly
+CW = PAGE_W - 2 * M               # 525 pt content width
 
 GST_RATE    = 0.0707
 INSURANCE   = 3.00
@@ -227,9 +226,14 @@ def _draw_image(c, path: str, x: float, y_top: float, height: float) -> float:
         return 0
     try:
         dims = _img_dims(path)
-        width = height * dims[0] / dims[1] if dims else height
-        c.drawImage(path, x, y_top - height, width, height,
-                    mask="auto", preserveAspectRatio=True)
+        if not dims or dims[1] == 0:
+            return 0
+        width = height * dims[0] / dims[1]
+        # Don't pass preserveAspectRatio=True together with explicit width:
+        # ReportLab treats that combo as "fit inside" and may not draw at all.
+        # We've already computed the exact aspect-preserving width, so drop it.
+        c.drawImage(path, x, y_top - height, width=width, height=height,
+                    mask="auto")
         return width
     except Exception:
         return 0
@@ -301,7 +305,7 @@ def generate(form_data: dict) -> bytes:
     F, B = _load_fonts()
 
     buf = io.BytesIO()
-    c   = pdf_canvas.Canvas(buf, pagesize=A4)
+    c   = pdf_canvas.Canvas(buf, pagesize=letter)
     W, H = PAGE_W, PAGE_H
 
     vtype   = form_data.get("vehicle_type", "Uber Go")
@@ -315,73 +319,73 @@ def generate(form_data: dict) -> bytes:
     y = H - M
 
     # ── Header: Uber wordmark + date/time ───────────────────
-    c.setFont(B, 17)
+    c.setFont(B, 22)
     c.setFillColor(C_DARK)
-    c.drawString(M, y - 18, "Uber")
+    c.drawString(M, y - 22, "Uber")
 
-    c.setFont(F, 8.5)
+    c.setFont(F, 10.5)
     c.setFillColor(C_GRAY)
-    c.drawRightString(W - M, y - 11, form_data.get("receipt_date", ""))
-    c.drawRightString(W - M, y - 22, form_data.get("receipt_time", ""))
-    y -= 32
+    c.drawRightString(W - M, y - 12, form_data.get("receipt_date", ""))
+    c.drawRightString(W - M, y - 26, form_data.get("receipt_time", ""))
+    y -= 50
 
     # ── Uber One subscription badge (actual logo image) ──────
     if is_u1:
         logo_path = os.path.join(ICONS_DIR, "uber_one_logo.png")
-        LOGO_H = 12          # 12 pt tall — matches real receipt badge size
+        LOGO_H = 16          # 16 pt tall — matches original badge proportion
         w = _draw_image(c, logo_path, M, y, LOGO_H)
         if w == 0:           # fallback if image missing
-            c.setFont(B, 9)
+            c.setFont(B, 11)
             c.setFillColor(C_AMBER)
-            c.drawString(M, y - 10, "\u2295  Uber One")
-        y -= LOGO_H + 18
+            c.drawString(M, y - 12, "\u2295  Uber One")
+        y -= LOGO_H + 22
 
     # ── Greeting ─────────────────────────────────────────────
     name = form_data.get("rider_name", "")
-    c.setFont(B, 24)
+    c.setFont(B, 33)
     c.setFillColor(C_DARK)
-    c.drawString(M, y - 24, f"Thanks for riding, {name}")
-    y -= 32
+    c.drawString(M, y - 33, f"Thanks for riding, {name}")
+    y -= 42
 
-    c.setFont(F, 10)
+    c.setFont(F, 13.5)
     c.setFillColor(C_GRAY)
-    c.drawString(M, y - 13, f"We hope you enjoyed your ride {_time_greeting(form_data.get('receipt_time',''))}.")
-    y -= 30
+    c.drawString(M, y - 14, f"We hope you enjoyed your ride {_time_greeting(form_data.get('receipt_time',''))}.")
+    y -= 38
 
     # ── Total ────────────────────────────────────────────────
-    c.setFont(B, 14)
+    c.setFont(B, 24)
     c.setFillColor(C_DARK)
-    c.drawString(M, y - 16, "Total")
-    c.setFont(B, 22)
-    c.drawRightString(W - M, y - 18, f"\u20b9{total:.2f}")
-    y -= 30
+    c.drawString(M, y - 24, "Total")
+    c.setFont(B, 24)
+    c.drawRightString(W - M, y - 24, f"\u20b9{total:.2f}")
+    y -= 40
 
     _hr(c, y)
     y -= 14
 
     # ── Uber One credits earned box ──────────────────────────
     if credits > 0:
-        BOX_H  = 42
-        ICON_H = 18
-        PAD_L  = 10
-        PAD_T  = 9
+        BOX_H  = 56
+        ICON_H = 22
+        PAD_L  = 14
+        PAD_T  = 12
 
         c.setFillColor(C_ABGND)
-        c.roundRect(M, y - BOX_H, CW, BOX_H, 6, stroke=0, fill=1)
+        c.roundRect(M, y - BOX_H, CW, BOX_H, 8, stroke=0, fill=1)
 
         # Icon top-aligned with amount text
         icon_w   = _draw_image(c, os.path.join(ICONS_DIR, "uber_one_icon.png"),
                                M + PAD_L, y - PAD_T, ICON_H)
 
-        text_x = M + PAD_L + (icon_w or 0) + 8
-        c.setFont(B, 11)
+        text_x = M + PAD_L + (icon_w or 0) + 10
+        c.setFont(B, 13.5)
         c.setFillColor(C_AMBER)
-        c.drawString(text_x, y - PAD_T - 10, f"\u20b9{credits:.2f}")
-        c.setFont(F, 8)
+        c.drawString(text_x, y - PAD_T - 12, f"\u20b9{credits:.2f}")
+        c.setFont(F, 12)
         c.setFillColor(C_ABLBL)
-        c.drawString(text_x, y - PAD_T - 23, "Uber One credits earned")
+        c.drawString(text_x, y - PAD_T - 30, "Uber One credits earned")
 
-        y -= BOX_H + 8
+        y -= BOX_H + 12
 
     # ── Fare rows ────────────────────────────────────────────
     if vtype == "Uber Go":
@@ -395,63 +399,63 @@ def generate(form_data: dict) -> bytes:
                 ("Insurance",      f"\u20b9{INSURANCE:.2f}")]
 
     for label, amount in rows:
-        c.setFont(F, 10)
+        c.setFont(F, 12)
         c.setFillColor(C_DARK)
         c.drawString(M, y - 14, label)
         c.drawRightString(W - M, y - 14, amount)
-        y -= 22
+        y -= 28
 
-    y -= 10
+    y -= 12
 
     _hr(c, y)
     y -= 18
 
     # ── Payments ─────────────────────────────────────────────
-    c.setFont(B, 13)
+    c.setFont(B, 18)
     c.setFillColor(C_DARK)
-    c.drawString(M, y - 14, "Payments")
-    y -= 24
+    c.drawString(M, y - 18, "Payments")
+    y -= 32
 
     pm        = form_data.get("payment_method", "Cash")
     icon_file = "cash.png" if pm == "Cash" else "upi.png"
-    PAY_H     = 20
+    PAY_H     = 26
     icon_w    = _draw_image(c, os.path.join(ICONS_DIR, icon_file), M, y, PAY_H)
-    tx        = M + (icon_w + 8 if icon_w else 0)
+    tx        = M + (icon_w + 10 if icon_w else 0)
 
     # Method name + amount on top row
-    c.setFont(B, 10)
+    c.setFont(B, 12)
     c.setFillColor(C_DARK)
-    c.drawString(tx, y - 10, pm)
-    c.drawRightString(W - M, y - 10, f"\u20b9{total:.2f}")
+    c.drawString(tx, y - 12, pm)
+    c.drawRightString(W - M, y - 12, f"\u20b9{total:.2f}")
 
     # Timestamp directly below method, tight spacing
     if form_data.get("payment_timestamp"):
-        c.setFont(F, 8.5)
+        c.setFont(F, 10.5)
         c.setFillColor(C_GRAY)
-        c.drawString(tx, y - 22, str(form_data["payment_timestamp"]))
+        c.drawString(tx, y - 26, str(form_data["payment_timestamp"]))
 
-    y -= PAY_H + 14
+    y -= PAY_H + 16
     _hr(c, y)
-    y -= 16
+    y -= 20
 
     # ── Disclaimer paragraphs ─────────────────────────────────
-    LH = 12
+    LH = 14
 
     if vtype == "Uber Go":
         # "Visit the trip page..." link line
         link_text = "Visit the trip page"
         tail_text = " for more information, including invoices (where available)."
-        c.setFont(F, 9)
+        c.setFont(F, 10.5)
         c.setFillColor(C_BLUE)
-        c.drawString(M, y - 11, link_text)
-        link_w = pdfmetrics.stringWidth(link_text, F, 9)
+        c.drawString(M, y - 12, link_text)
+        link_w = pdfmetrics.stringWidth(link_text, F, 10.5)
         # underline link
         c.setStrokeColor(C_BLUE)
-        c.setLineWidth(0.4)
-        c.line(M, y - 12.5, M + link_w, y - 12.5)
+        c.setLineWidth(0.5)
+        c.line(M, y - 13.5, M + link_w, y - 13.5)
         c.setFillColor(C_DARK)
-        c.drawString(M + link_w, y - 11, tail_text)
-        y -= LH + 10
+        c.drawString(M + link_w, y - 12, tail_text)
+        y -= LH + 12
 
         tc  = float(form_data.get("trip_charge") or 0)
         gst = calc_gst(tc)
@@ -472,21 +476,21 @@ def generate(form_data: dict) -> bytes:
              "accordance with local laws and regulations."),
         ]
 
-    c.setFont(F, 9)
+    c.setFont(F, 10.5)
     c.setFillColor(C_DARK if vtype == "Uber Go" else C_GRAY)
     for para in paras:
-        for ln in _wrap(para, F, 9, CW):
-            c.drawString(M, y - 11, ln)
+        for ln in _wrap(para, F, 10.5, CW):
+            c.drawString(M, y - 12, ln)
             y -= LH
-        y -= 6
+        y -= 8
 
     # ── "Trip details" section heading ───────────────────────
-    y -= 6
+    y -= 8
     _hr(c, y)
-    y -= 20
-    c.setFont(B, 15)
+    y -= 26
+    c.setFont(B, 18)
     c.setFillColor(C_DARK)
-    c.drawString(M, y - 15, "Trip details")
+    c.drawString(M, y - 18, "Trip details")
 
     # ═══════════════════════════════════════════════════════
     # PAGE 2
@@ -496,94 +500,94 @@ def generate(form_data: dict) -> bytes:
 
     # ── Vehicle row ──────────────────────────────────────────
     veh_file = "uber_go.png" if vtype == "Uber Go" else "auto.png"
-    VEH_H    = 32
+    VEH_H    = 18
     icon_w   = _draw_image(c, os.path.join(ICONS_DIR, veh_file), M, y, VEH_H)
     tx       = M + (icon_w + 10 if icon_w else 0)
 
-    c.setFont(B, 10)
+    c.setFont(B, 12)
     c.setFillColor(C_DARK)
-    c.drawString(tx, y - 13, vtype)
-    c.setFont(F, 9)
+    c.drawString(tx, y - 12, vtype)
+    c.setFont(F, 10.5)
     c.setFillColor(C_GRAY)
-    c.drawString(tx, y - 25, f"{form_data.get('distance_km','')} kilometres, {form_data.get('duration_min','')} minutes")
+    c.drawString(tx, y - 27, f"{form_data.get('distance_km','')} kilometres, {form_data.get('duration_min','')} minutes")
 
-    c.setFont(F, 9)
+    c.setFont(F, 10.5)
     c.setFillColor(C_GRAY)
-    c.drawRightString(W - M, y - 13, "License Plate:")
-    c.setFont(B, 9)
+    c.drawRightString(W - M, y - 12, "License Plate:")
+    c.setFont(B, 10.5)
     c.setFillColor(C_DARK)
-    c.drawRightString(W - M, y - 25, str(form_data.get("license_plate", "")))
+    c.drawRightString(W - M, y - 27, str(form_data.get("license_plate", "")))
 
-    y -= VEH_H + 14
+    y -= VEH_H + 22
     _hr(c, y)
-    y -= 24
+    y -= 28
 
     # ── Route ────────────────────────────────────────────────
-    PIN_X  = M + 8
-    TEXT_X = M + 22
-    TEXT_W = CW - 22
+    PIN_X  = M + 12       # pin centered ~17pt from left edge
+    TEXT_X = M + 28       # text column starts 28pt from left (wider gap)
+    TEXT_W = CW - 28      # full-width addresses (no map to the right)
 
     pu_y = y
     c.setFillColor(C_DARK)
-    c.circle(PIN_X, pu_y - 7, 4, stroke=0, fill=1)
-    c.setFont(B, 10)
+    c.circle(PIN_X, pu_y - 9, 5.5, stroke=0, fill=1)      # 11pt diameter
+    c.setFont(B, 12)
     c.setFillColor(C_DARK)
-    c.drawString(TEXT_X, pu_y - 10, str(form_data.get("pickup_time", "")))
-    c.setFont(F, 9)
+    c.drawString(TEXT_X, pu_y - 12, str(form_data.get("pickup_time", "")))
+    c.setFont(F, 10.5)
     c.setFillColor(C_GRAY)
-    pu_lines = _wrap(str(form_data.get("pickup_address", "")), F, 9, TEXT_W)[:3]
+    pu_lines = _wrap(str(form_data.get("pickup_address", "")), F, 10.5, TEXT_W)[:4]
     for i, ln in enumerate(pu_lines):
-        c.drawString(TEXT_X, pu_y - 22 - i * 12, ln)
-    pu_h = 22 + len(pu_lines) * 12
+        c.drawString(TEXT_X, pu_y - 28 - i * 14, ln)
+    pu_h = 28 + len(pu_lines) * 14
 
-    do_y = pu_y - pu_h - 14
+    do_y = pu_y - pu_h - 18
     c.setStrokeColor(C_LINE)
-    c.setLineWidth(1.2)
-    c.line(PIN_X, pu_y - 12, PIN_X, do_y + 8)
+    c.setLineWidth(1.5)
+    c.line(PIN_X, pu_y - 16, PIN_X, do_y + 7)
 
-    sq = 8
+    sq = 10                                                # 10pt square
     c.setFillColor(C_DARK)
     c.rect(PIN_X - sq / 2, do_y - sq / 2, sq, sq, stroke=0, fill=1)
-    c.setFont(B, 10)
+    c.setFont(B, 12)
     c.setFillColor(C_DARK)
     c.drawString(TEXT_X, do_y - 5, str(form_data.get("dropoff_time", "")))
-    c.setFont(F, 9)
+    c.setFont(F, 10.5)
     c.setFillColor(C_GRAY)
-    do_lines = _wrap(str(form_data.get("dropoff_address", "")), F, 9, TEXT_W)[:3]
+    do_lines = _wrap(str(form_data.get("dropoff_address", "")), F, 10.5, TEXT_W)[:4]
     for i, ln in enumerate(do_lines):
-        c.drawString(TEXT_X, do_y - 17 - i * 12, ln)
-    do_h = 17 + len(do_lines) * 12
+        c.drawString(TEXT_X, do_y - 20 - i * 14, ln)
+    do_h = 20 + len(do_lines) * 14
 
-    y = do_y - do_h - 20
+    y = do_y - do_h - 24
     _hr(c, y)
-    y -= 20
+    y -= 26
 
     # ── Driver (plain text + drawn star) ─────────────────────
     driver_name   = str(form_data.get("driver_name", ""))
     driver_rating = float(form_data.get("driver_rating") or 0)
     rating_str    = f"{driver_rating:.2f}"
 
-    c.setFont(B, 11)
+    c.setFont(B, 12)
     c.setFillColor(C_DARK)
     c.drawString(M, y - 14, f"You rode with {driver_name}.")
 
     # Rating text + star drawn as polygon
-    STAR_R  = 5
-    rating_w = pdfmetrics.stringWidth(rating_str, B, 11)
+    STAR_R  = 6
+    rating_w = pdfmetrics.stringWidth(rating_str, B, 12)
     # Right-align: star is rightmost, rating text to its left
     star_cx = W - M - STAR_R - 1
-    rat_x   = star_cx - STAR_R - 5 - rating_w
+    rat_x   = star_cx - STAR_R - 6 - rating_w
     c.drawString(rat_x, y - 14, rating_str)
-    _draw_star(c, star_cx, y - 9, r=STAR_R, fill_color=C_DARK)
+    _draw_star(c, star_cx, y - 10, r=STAR_R, fill_color=C_DARK)
 
-    y -= 28
+    y -= 36
 
     # ── "Want to review your trip history?" ──────────────────
-    c.setFont(F, 9)
+    c.setFont(F, 12)
     c.setFillColor(C_GRAY)
-    c.drawString(M, y - 13, "Want to review your trip history?")
+    c.drawString(M, y - 14, "Want to review your trip history?")
     c.setFillColor(C_BLUE)
-    c.drawRightString(W - M, y - 13, "My trips")
+    c.drawRightString(W - M, y - 14, "My trips")
 
     c.save()
     return buf.getvalue()
