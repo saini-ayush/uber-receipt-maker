@@ -369,25 +369,25 @@ def generate(form_data: dict) -> bytes:
 
     # ── Uber One credits earned box ──────────────────────────
     if credits > 0:
-        BOX_H  = 56
-        ICON_H = 22
-        PAD_L  = 14
-        PAD_T  = 12
+        BOX_H   = 48
+        ICON_H  = 18
+        PAD_L   = 14
+        center_y = y - BOX_H / 2   # vertical mid-line of box
 
         c.setFillColor(C_ABGND)
         c.roundRect(M, y - BOX_H, CW, BOX_H, 8, stroke=0, fill=1)
 
-        # Icon top-aligned with amount text
-        icon_w   = _draw_image(c, os.path.join(ICONS_DIR, "uber_one_icon.png"),
-                               M + PAD_L, y - PAD_T, ICON_H)
+        # Icon vertically centred in box
+        icon_w = _draw_image(c, os.path.join(ICONS_DIR, "uber_one_icon.png"),
+                             M + PAD_L, center_y + ICON_H / 2, ICON_H)
 
         text_x = M + PAD_L + (icon_w or 0) + 10
-        c.setFont(B, 13.5)
+        c.setFont(B, 12)
         c.setFillColor(C_AMBER)
-        c.drawString(text_x, y - PAD_T - 12, f"\u20b9{credits:.2f}")
-        c.setFont(F, 12)
+        c.drawString(text_x, center_y + 3, f"\u20b9{credits:.2f}")
+        c.setFont(F, 10.5)
         c.setFillColor(C_ABLBL)
-        c.drawString(text_x, y - PAD_T - 30, "Uber One credits earned")
+        c.drawString(text_x, center_y - 11, "Uber One credits earned")
 
         y -= BOX_H + 12
 
