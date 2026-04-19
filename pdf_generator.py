@@ -20,7 +20,7 @@ C_GRAY   = colors.HexColor("#6B6B6B")
 C_LINE   = colors.HexColor("#E0E0E0")
 C_AMBER  = colors.HexColor("#976722")
 C_ABGND  = colors.HexColor("#F3F3F3")   # lighter warm beige — matches real receipt
-C_ABLBL  = colors.HexColor("#8B6914")
+C_ABLBL  = colors.HexColor("#000000")
 C_BLUE   = colors.HexColor("#276EF1")
 
 PAGE_W, PAGE_H = letter          # 612 × 792 pt — matches original Uber receipt
@@ -318,26 +318,26 @@ def generate(form_data: dict) -> bytes:
     # ═══════════════════════════════════════════════════════
     y = H - M
 
-    # ── Header: Uber wordmark + date/time ───────────────────
-    c.setFont(B, 22)
+    # ── Header: Uber wordmark (text) + date/time ────────────
+    c.setFont(B, 30)
     c.setFillColor(C_DARK)
-    c.drawString(M, y - 22, "Uber")
+    c.drawString(M, y - 28, "Uber")
 
     c.setFont(F, 10.5)
     c.setFillColor(C_GRAY)
     c.drawRightString(W - M, y - 12, form_data.get("receipt_date", ""))
     c.drawRightString(W - M, y - 26, form_data.get("receipt_time", ""))
-    y -= 50
+    y -= 52
 
-    # ── Uber One subscription badge (actual logo image) ──────
+    # ── Uber One subscription badge (⊕ Uber One image) ──────
     if is_u1:
-        logo_path = os.path.join(ICONS_DIR, "uber_one_logo.png")
-        LOGO_H = 16          # 16 pt tall — matches original badge proportion
-        w = _draw_image(c, logo_path, M, y, LOGO_H)
+        LOGO_H = 24          # matches original badge 24pt height
+        w = _draw_image(c, os.path.join(ICONS_DIR, "uber_one_logo.png"),
+                        M, y, LOGO_H)
         if w == 0:           # fallback if image missing
-            c.setFont(B, 11)
+            c.setFont(B, 14)
             c.setFillColor(C_AMBER)
-            c.drawString(M, y - 12, "\u2295  Uber One")
+            c.drawString(M, y - 14, "\u2295  Uber One")
         y -= LOGO_H + 22
 
     # ── Greeting ─────────────────────────────────────────────
@@ -442,24 +442,10 @@ def generate(form_data: dict) -> bytes:
     LH = 14
 
     if vtype == "Uber Go":
-        # "Visit the trip page..." link line
-        link_text = "Visit the trip page"
-        tail_text = " for more information, including invoices (where available)."
-        c.setFont(F, 10.5)
-        c.setFillColor(C_BLUE)
-        c.drawString(M, y - 12, link_text)
-        link_w = pdfmetrics.stringWidth(link_text, F, 10.5)
-        # underline link
-        c.setStrokeColor(C_BLUE)
-        c.setLineWidth(0.5)
-        c.line(M, y - 13.5, M + link_w, y - 13.5)
-        c.setFillColor(C_DARK)
-        c.drawString(M + link_w, y - 12, tail_text)
-        y -= LH + 12
-
         tc  = float(form_data.get("trip_charge") or 0)
         gst = calc_gst(tc)
         paras = [
+            "Visit the trip page for more information, including invoices (where available).",
             f"The total of \u20b9{total:.2f} has a GST of \u20b9{gst:.2f} included.",
             "Fares are inclusive of GST. Please download the tax invoice from the trip detail page for a full tax breakdown.",
         ]
@@ -477,26 +463,43 @@ def generate(form_data: dict) -> bytes:
         ]
 
     c.setFont(F, 10.5)
-    c.setFillColor(C_DARK if vtype == "Uber Go" else C_GRAY)
-    for para in paras:
-        for ln in _wrap(para, F, 10.5, CW):
-            c.drawString(M, y - 12, ln)
+    default_fill = C_DARK if vtype == "Uber Go" else C_GRAY
+    for p_idx, para in enumerate(paras):
+        for i, ln in enumerate(_wrap(para, F, 10.5, CW)):
+            if i == 0 and ln.startswith("Visit the trip page"):
+                link_text = "Visit the trip page"
+                tail_text = ln[len(link_text):]
+                link_w    = pdfmetrics.stringWidth(link_text, F, 10.5)
+                c.setFillColor(C_BLUE)
+                c.drawString(M, y - 12, link_text)
+                c.setStrokeColor(C_BLUE)
+                c.setLineWidth(0.5)
+                c.line(M, y - 13.5, M + link_w, y - 13.5)
+                c.linkURL("https://riders.uber.com/trips/",
+                          (M, y - 14, M + link_w, y - 2), relative=0)
+                c.setFillColor(default_fill)
+                c.drawString(M + link_w, y - 12, tail_text)
+            else:
+                c.setFillColor(default_fill)
+                c.drawString(M, y - 12, ln)
             y -= LH
         y -= 8
-
-    # ── "Trip details" section heading ───────────────────────
-    y -= 8
-    _hr(c, y)
-    y -= 26
-    c.setFont(B, 18)
-    c.setFillColor(C_DARK)
-    c.drawString(M, y - 18, "Trip details")
+        # Light separator between paragraphs
+        if p_idx < len(paras) - 1:
+            _hr(c, y)
+            y -= 14
 
     # ═══════════════════════════════════════════════════════
     # PAGE 2
     # ═══════════════════════════════════════════════════════
     c.showPage()
     y = H - M
+
+    # ── "Trip details" section heading (now on page 2) ──────
+    c.setFont(B, 18)
+    c.setFillColor(C_DARK)
+    c.drawString(M, y - 18, "Trip details")
+    y -= 34
 
     # ── Vehicle row ──────────────────────────────────────────
     veh_file = "uber_go.png" if vtype == "Uber Go" else "auto.png"
