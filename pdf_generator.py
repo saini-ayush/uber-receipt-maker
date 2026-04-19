@@ -318,10 +318,14 @@ def generate(form_data: dict) -> bytes:
     # ═══════════════════════════════════════════════════════
     y = H - M
 
-    # ── Header: Uber wordmark (text) + date/time ────────────
-    c.setFont(B, 30)
-    c.setFillColor(C_DARK)
-    c.drawString(M, y - 28, "Uber")
+    # ── Header: Uber wordmark (PNG if available, text fallback) + date/time ──
+    LOGO_H = 30
+    logo_path = os.path.join(ICONS_DIR, "uber_logo.png")
+    drew = _draw_image(c, logo_path, M, y, LOGO_H) if os.path.exists(logo_path) else 0
+    if not drew:
+        c.setFont(B, 30)
+        c.setFillColor(C_DARK)
+        c.drawString(M, y - 28, "Uber")
 
     c.setFont(F, 10.5)
     c.setFillColor(C_GRAY)
@@ -331,7 +335,7 @@ def generate(form_data: dict) -> bytes:
 
     # ── Uber One subscription badge (⊕ Uber One image) ──────
     if is_u1:
-        LOGO_H = 24          # matches original badge 24pt height
+        LOGO_H = 30          # slightly larger Uber One badge
         w = _draw_image(c, os.path.join(ICONS_DIR, "uber_one_logo.png"),
                         M, y, LOGO_H)
         if w == 0:           # fallback if image missing
@@ -499,7 +503,7 @@ def generate(form_data: dict) -> bytes:
     c.setFont(B, 18)
     c.setFillColor(C_DARK)
     c.drawString(M, y - 18, "Trip details")
-    y -= 34
+    y -= 48
 
     # ── Vehicle row ──────────────────────────────────────────
     veh_file = "uber_go.png" if vtype == "Uber Go" else "auto.png"
