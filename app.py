@@ -1,14 +1,7 @@
 import streamlit as st
-from datetime import date, time as dtime
+from datetime import date, time as dtime, datetime, timedelta
 import data_loader
 import pdf_generator
-
-INDIAN_DRIVER_NAMES = [
-    "Mohammed Rinas", "Nidhin", "Soniya", "Chandran",
-    "Jobi P. Jacob", "Ajas", "Prajeesh N.K", "Rajesh Kumar",
-    "Suresh Babu", "Priya Nair", "Anoop George", "Deepak Menon",
-    "(Enter custom name)",
-]
 
 
 def _init_state():
@@ -22,7 +15,7 @@ def _init_state():
         "license_plate": "",
         "pickup_time": dtime(12, 0),
         "pickup_address": "",
-        "dropoff_time": dtime(12, 30),
+        "dropoff_time": dtime(12, 15),
         "dropoff_address": "",
         "distance_km": 5.0,
         "duration_min": 15,
@@ -32,8 +25,7 @@ def _init_state():
         "uber_one_credits": 0.0,
         "payment_method": "Cash",
         "payment_timestamp": "",
-        "driver_name_select": INDIAN_DRIVER_NAMES[0],
-        "driver_name_custom": "",
+        "driver_name": "",
         "driver_rating": 4.90,
         "pdf_bytes": None,
         "pdf_fname": "",
@@ -43,9 +35,41 @@ def _init_state():
             st.session_state[k] = v
 
 
+def _fmt_payment_timestamp(d: date, t: dtime) -> str:
+    h = t.hour % 12 or 12
+    ampm = "am" if t.hour < 12 else "pm"
+    return f"{d.month}/{d.day}/{str(d.year)[2:]} {h}:{t.minute:02d} {ampm}"
+
+
+def _sync_dropoff_from_pickup_duration():
+    pt = st.session_state.pickup_time
+    dur = st.session_state.duration_min
+    base = datetime(2000, 1, 1, pt.hour, pt.minute)
+    st.session_state.dropoff_time = (base + timedelta(minutes=dur)).time()
+    st.session_state.payment_timestamp = _fmt_payment_timestamp(
+        st.session_state.receipt_date, st.session_state.dropoff_time)
+
+
+def _sync_duration_from_dropoff():
+    pt = st.session_state.pickup_time
+    dt = st.session_state.dropoff_time
+    base = datetime(2000, 1, 1)
+    diff = (base.replace(hour=dt.hour, minute=dt.minute) -
+            base.replace(hour=pt.hour, minute=pt.minute))
+    if diff.total_seconds() < 0:
+        diff += timedelta(hours=24)
+    st.session_state.duration_min = max(1, int(diff.total_seconds() / 60))
+    st.session_state.payment_timestamp = _fmt_payment_timestamp(
+        st.session_state.receipt_date, dt)
+
+
+def _sync_payment_from_date():
+    st.session_state.payment_timestamp = _fmt_payment_timestamp(
+        st.session_state.receipt_date, st.session_state.dropoff_time)
+
+
 def _prefill_from_template(t: dict):
     """Overwrite all form session-state keys from a template dict."""
-    from datetime import datetime
 
     def parse_time(raw: str):
         for fmt in ("%I:%M %p", "%I:%M%p"):
@@ -60,6 +84,7 @@ def _prefill_from_template(t: dict):
             t["receipt_date"], "%b %d, %Y").date()
     except Exception:
         pass
+
 
     if t.get("receipt_time"):
         st.session_state.receipt_time = parse_time(t["receipt_time"])
@@ -94,23 +119,16 @@ def _prefill_from_template(t: dict):
         st.session_state.payment_timestamp = p.get("timestamp") or ""
 
     driver = t.get("driver") or {}
-    dname  = driver.get("name") or ""
-    if dname in INDIAN_DRIVER_NAMES:
-        st.session_state.driver_name_select = dname
-        st.session_state.driver_name_custom = ""
-    else:
-        st.session_state.driver_name_select = "(Enter custom name)"
-        st.session_state.driver_name_custom = dname
+    st.session_state.driver_name = driver.get("name") or ""
     st.session_state.driver_rating = driver.get("rating") or 4.90
+
+    st.session_state.payment_timestamp = _fmt_payment_timestamp(
+        st.session_state.receipt_date, st.session_state.dropoff_time)
 
 
 def _collect_form_data() -> dict:
     ss = st.session_state
-    driver_name = (
-        ss.driver_name_custom
-        if ss.driver_name_select == "(Enter custom name)"
-        else ss.driver_name_select
-    )
+    driver_name = ss.driver_name
     vtype = ss.vehicle_type
     if vtype == "Uber Go":
         trip_charge    = ss.trip_charge
@@ -171,7 +189,7 @@ def _step1():
     st.subheader("Trip Info")
     c1, c2 = st.columns(2)
     with c1:
-        st.date_input("Date", key="receipt_date")
+        st.date_input("Date", key="receipt_date", on_change=_sync_payment_from_date)
         st.text_input("Rider Name", key="rider_name", placeholder="e.g. Dyrus")
     with c2:
         st.time_input("Booking Time", key="receipt_time", step=60)
@@ -182,17 +200,20 @@ def _step1():
     st.subheader("Route")
     c1, c2 = st.columns(2)
     with c1:
-        st.time_input("Pickup Time", key="pickup_time", step=60)
+        st.time_input("Pickup Time", key="pickup_time", step=60,
+                      on_change=_sync_dropoff_from_pickup_duration)
         st.text_area("Pickup Address", key="pickup_address", height=80)
     with c2:
-        st.time_input("Dropoff Time", key="dropoff_time", step=60)
+        st.time_input("Dropoff Time", key="dropoff_time", step=60,
+                      on_change=_sync_duration_from_dropoff)
         st.text_area("Dropoff Address", key="dropoff_address", height=80)
     c1, c2 = st.columns(2)
     with c1:
         st.number_input("Distance (km)", min_value=0.1, step=0.1,
                         format="%.2f", key="distance_km")
     with c2:
-        st.number_input("Duration (min)", min_value=1, step=1, key="duration_min")
+        st.number_input("Duration (min)", min_value=1, step=1, key="duration_min",
+                        on_change=_sync_dropoff_from_pickup_duration)
 
     # ── Fare ─────────────────────────────────────────────────────────────
     st.subheader("Fare")
@@ -225,9 +246,7 @@ def _step1():
 
     # ── Driver ───────────────────────────────────────────────────────────
     st.subheader("Driver")
-    st.selectbox("Driver Name", INDIAN_DRIVER_NAMES, key="driver_name_select")
-    if st.session_state.driver_name_select == "(Enter custom name)":
-        st.text_input("Custom Driver Name", key="driver_name_custom")
+    st.text_input("Driver Name", key="driver_name", placeholder="e.g. Rajesh Kumar")
     st.slider("Driver Rating", min_value=0.0, max_value=5.0,
               step=0.01, format="%.2f", key="driver_rating")
 
