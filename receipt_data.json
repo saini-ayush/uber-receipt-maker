@@ -28,21 +28,595 @@
   },
   "receipts": [
     {
-      "receipt_id": "Hotel_1_to_Pallaruthy",
-      "source_file": "Hotel 1 to Pallaruthy.pdf",
+      "receipt_id": "Hotel_1_To_Palarivattom",
+      "source_file": "Hotel 1 To Palarivattom.pdf",
+      "receipt_date": "Apr 8, 2026",
+      "receipt_time": "9:31 am",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": "KL07CA8743",
+      "distance_km": 5.92,
+      "duration_min": 18,
+      "pickup": {
+        "time": "9:34 am",
+        "address": "2011 M.G Road, AK Sheshadri Fashion Street Lane Near Maharajas Metro Station Ernakulam Shenoy's Junction, Shenoys, Kochi, Kerala 682011, India"
+      },
+      "dropoff": {
+        "time": "9:59 am",
+        "address": "INDRAPRASTHA Building, Elamakkara, Kochi, Kerala 682026, India"
+      },
+      "fare": {
+        "total": 145.4,
+        "trip_charge": 142.4,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 10.07,
+        "uber_one_credits_earned": null
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 145.4,
+          "timestamp": "4/8/26 10:00 am",
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "Mohammed Rinas.",
+        "rating": 4.9
+      },
+      "map_image": "assets/maps/Hotel_1_To_Palarivattom.png"
+    },
+    {
+      "receipt_id": "Hotel_1_to_Kalamassery",
+      "source_file": "Hotel 1 to Kalamassery.pdf",
+      "receipt_date": "Apr 9, 2026",
+      "receipt_time": "12:00 pm",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": "KL07DJ8812",
+      "distance_km": 10.02,
+      "duration_min": 35,
+      "pickup": {
+        "time": "12:03 pm",
+        "address": "2011 M.G Road, AK Sheshadri Fashion Street Lane Near Maharajas Metro Station Ernakulam Shenoy's Junction, Shenoys, Kochi, Kerala 682011, India"
+      },
+      "dropoff": {
+        "time": "12:38 pm",
+        "address": "No 32/213, Building, near South Kalamassery Over Bridge, South Kalamassery, Kalamassery, Kochi, Kerala 682033, India"
+      },
+      "fare": {
+        "total": 289.35,
+        "trip_charge": 286.35,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 20.24,
+        "uber_one_credits_earned": 28.63
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 289.35,
+          "timestamp": "4/9/26 12:38 pm",
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "Sanjay.",
+        "rating": 4.9
+      },
+      "map_image": "assets/maps/Hotel_1_to_Kalamassery.png"
+    },
+    {
+      "receipt_id": "Hotel_1_to_Palluruthy",
+      "source_file": "Hotel 1 to Palluruthy.pdf",
+      "receipt_date": "Apr 8, 2026",
+      "receipt_time": "3:32 pm",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": "KL52N0862",
+      "distance_km": 6.95,
+      "duration_min": 22,
+      "pickup": {
+        "time": "3:36 pm",
+        "address": "2011 M.G Road, AK Sheshadri Fashion Street Lane Near Maharajas Metro Station Ernakulam Shenoy's Junction, Shenoys, Kochi, Kerala 682011, India"
+      },
+      "dropoff": {
+        "time": "3:58 pm",
+        "address": "W7J9+FFX, Baby Marine Rd, Thoppumpady, Kochi, Kerala 682005, India"
+      },
+      "fare": {
+        "total": 208.36,
+        "trip_charge": 205.36,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 14.52,
+        "uber_one_credits_earned": null
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 208.36,
+          "timestamp": "4/08/26 4:00 pm",
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "Chandran.",
+        "rating": 4.78
+      },
+      "map_image": "assets/maps/Hotel_1_to_Palluruthy.png"
+    },
+    {
+      "receipt_id": "Hotel_2_To_Palarivattom",
+      "source_file": "Hotel 2 To Palarivattom.pdf",
       "receipt_date": "Apr 10, 2026",
-      "receipt_time": "1:30 pm",
+      "receipt_time": "12:00 pm",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": "KL07DJ0231",
+      "distance_km": 6.46,
+      "duration_min": 20,
+      "pickup": {
+        "time": "12:00 pm",
+        "address": "T.D Junction, Warriam Rd, Ernakulam South, Kochi, Kerala 682016, India"
+      },
+      "dropoff": {
+        "time": "12:20 pm",
+        "address": "INDRAPRASTHA Building, Elamakkara, Kochi, Kerala 682026, India"
+      },
+      "fare": {
+        "total": 145.65,
+        "trip_charge": 142.65,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 10.09,
+        "uber_one_credits_earned": null
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 145.65,
+          "timestamp": "4/10/26 12:20 pm",
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "Sinoy.",
+        "rating": 4.9
+      },
+      "map_image": "assets/maps/Hotel_2_To_Palarivattom.png"
+    },
+    {
+      "receipt_id": "Hotel_2_to_Kalamassery",
+      "source_file": "Hotel 2 to Kalamassery.pdf",
+      "receipt_date": "Apr 10, 2026",
+      "receipt_time": "12:00 pm",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": null,
+      "distance_km": 11.5,
+      "duration_min": 50,
+      "pickup": {
+        "time": "12:00 pm",
+        "address": "warriam road Opposite Lotus Club, Jose Junction, Pallimukku, Kochi, Kerala 682016, India"
+      },
+      "dropoff": {
+        "time": "12:50 pm",
+        "address": "213, near South kalamassery, South Kalamassery, Kalamassery, Kochi, Kerala 682033, India"
+      },
+      "fare": {
+        "total": 413.35,
+        "trip_charge": 410.35,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 29.01,
+        "uber_one_credits_earned": 41.03
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 413.35,
+          "timestamp": "4/10/26 12:50 pm",
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "Sambhav.",
+        "rating": 4.9
+      },
+      "map_image": "assets/maps/Hotel_2_to_Kalamassery.png"
+    },
+    {
+      "receipt_id": "Hotel_2_to_Palluruthy",
+      "source_file": "Hotel 2 to Palluruthy.pdf",
+      "receipt_date": "Apr 10, 2026",
+      "receipt_time": "12:00 pm",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": "KL07DJ5590",
+      "distance_km": 6.67,
+      "duration_min": 15,
+      "pickup": {
+        "time": "12:00 pm",
+        "address": "warriam road Opposite Lotus Club, Jose Junction, Pallimukku, Kochi, Kerala 682016, India"
+      },
+      "dropoff": {
+        "time": "12:15 pm",
+        "address": "W7J9+FFX, Baby Marine Rd, Thoppumpady, Kochi, Kerala 682005, India"
+      },
+      "fare": {
+        "total": 194.35,
+        "trip_charge": 191.35,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 13.53,
+        "uber_one_credits_earned": 19.43
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 194.35,
+          "timestamp": "4/10/26 12:15 pm",
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "Mahesh.",
+        "rating": 4.9
+      },
+      "map_image": "assets/maps/Hotel_2_to_Palluruthy.png"
+    },
+    {
+      "receipt_id": "Kalamassery_to_Hotel_1",
+      "source_file": "Kalamassery to Hotel 1.pdf",
+      "receipt_date": "Apr 8, 2026",
+      "receipt_time": "6:00 pm",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": "KL43A7502",
+      "distance_km": 10.2,
+      "duration_min": 33,
+      "pickup": {
+        "time": "6:03 pm",
+        "address": "No 32/213, Building, near South Kalamassery Over Bridge, South Kalamassery, Kalamassery, Kochi, Kerala 682033, India"
+      },
+      "dropoff": {
+        "time": "6:36 pm",
+        "address": "2011 M.G Road, AK Sheshadri Fashion Street Lane Near Maharajas Metro Station Ernakulam Shenoy's Junction, Shenoys, Kochi, Kerala 682011, India"
+      },
+      "fare": {
+        "total": 272.95,
+        "trip_charge": 269.95,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 19.09,
+        "uber_one_credits_earned": null
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 272.95,
+          "timestamp": null,
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "Jobi P. Jacob.",
+        "rating": 4.9
+      },
+      "map_image": "assets/maps/Kalamassery_to_Hotel_1.png"
+    },
+    {
+      "receipt_id": "Kalamassery_to_Hotel_2_(1)",
+      "source_file": "Kalamassery to Hotel 2 (1).pdf",
+      "receipt_date": "Apr 10, 2026",
+      "receipt_time": "12:00 pm",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": "KL07DJ1428",
+      "distance_km": 11.06,
+      "duration_min": 46,
+      "pickup": {
+        "time": "12:00 pm",
+        "address": "No 32/213, Building, near South Kalamassery Over Bridge, South Kalamassery, Kalamassery, Kochi, Kerala 682033, India"
+      },
+      "dropoff": {
+        "time": "12:46 pm",
+        "address": "T.D Junction, Warriam Rd, Ernakulam South, Kochi, Kerala 682016, India"
+      },
+      "fare": {
+        "total": 411.7,
+        "trip_charge": 408.7,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 28.9,
+        "uber_one_credits_earned": 40.87
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 411.7,
+          "timestamp": "4/10/26 12:46 pm",
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "Sidharth.",
+        "rating": 4.9
+      },
+      "map_image": "assets/maps/Kalamassery_to_Hotel_2_(1).png"
+    },
+    {
+      "receipt_id": "Kalamassery_to_Palarivattom",
+      "source_file": "Kalamassery to Palarivattom.pdf",
+      "receipt_date": "Apr 10, 2026",
+      "receipt_time": "12:00 pm",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": "KL07DJ3345",
+      "distance_km": 6.08,
+      "duration_min": 15,
+      "pickup": {
+        "time": "12:00 pm",
+        "address": "No 32/213, Building, near South Kalamassery Over Bridge, South Kalamassery, Kalamassery, Kochi, Kerala 682033, India"
+      },
+      "dropoff": {
+        "time": "12:15 pm",
+        "address": "INDRAPRASTHA Building, Elamakkara, Kochi, Kerala 682026, India"
+      },
+      "fare": {
+        "total": 201.63,
+        "trip_charge": 198.63,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 14.04,
+        "uber_one_credits_earned": 19.86
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 201.63,
+          "timestamp": "4/10/26 12:15 pm",
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "Ayush.",
+        "rating": 4.86
+      },
+      "map_image": "assets/maps/Kalamassery_to_Palarivattom.png"
+    },
+    {
+      "receipt_id": "Kalamassery_to_Palluruthy",
+      "source_file": "Kalamassery to Palluruthy.pdf",
+      "receipt_date": "Apr 8, 2026",
+      "receipt_time": "11:30 am",
       "rider_name": "Dyrus",
       "vehicle_type": "Uber Go",
       "license_plate": "KL47N0640",
-      "distance_km": 6.95,
+      "distance_km": 17.6,
+      "duration_min": 38,
+      "pickup": {
+        "time": "11:37 am",
+        "address": "No 32/213, Building, near South Kalamassery Over Bridge, South Kalamassery, Kalamassery, Kochi, Kerala 682033, India"
+      },
+      "dropoff": {
+        "time": "12:16 pm",
+        "address": "W7J9+FFX, Baby Marine Rd, Thoppumpady, Kochi, Kerala 682005, India"
+      },
+      "fare": {
+        "total": 382.95,
+        "trip_charge": 379.95,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 26.86,
+        "uber_one_credits_earned": null
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 382.95,
+          "timestamp": null,
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "Ajas.",
+        "rating": 4.94
+      },
+      "map_image": "assets/maps/Kalamassery_to_Palluruthy.png"
+    },
+    {
+      "receipt_id": "Palarivattom_To_Kalamassery",
+      "source_file": "Palarivattom To Kalamassery.pdf",
+      "receipt_date": "Apr 8, 2026",
+      "receipt_time": "10:29 am",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": "KL41W2199",
+      "distance_km": 6.06,
+      "duration_min": 15,
+      "pickup": {
+        "time": "10:33 am",
+        "address": "INDRAPRASTHA Building, Elamakkara, Kochi, Kerala 682026, India"
+      },
+      "dropoff": {
+        "time": "10:48 am",
+        "address": "No 32/213, Building, near South Kalamassery Over Bridge, South Kalamassery, Kalamassery, Kochi, Kerala 682033, India"
+      },
+      "fare": {
+        "total": 192.55,
+        "trip_charge": 189.55,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 13.4,
+        "uber_one_credits_earned": null
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 192.55,
+          "timestamp": "4/8/26 10:49 am",
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "Chandran.",
+        "rating": 4.82
+      },
+      "map_image": "assets/maps/Palarivattom_To_Kalamassery.png"
+    },
+    {
+      "receipt_id": "Palarivattom_to_Hotel_1",
+      "source_file": "Palarivattom to Hotel 1.pdf",
+      "receipt_date": "Apr 10, 2026",
+      "receipt_time": "12:00 pm",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": "KL07DI7621",
+      "distance_km": 6.0,
       "duration_min": 18,
       "pickup": {
-        "time": "1:35 pm",
+        "time": "12:00 pm",
+        "address": "INDRAPRASTHA Building, Elamakkara, Kochi, Kerala 682026, India"
+      },
+      "dropoff": {
+        "time": "12:18 pm",
+        "address": "2011 M.G Road, AK Sheshadri Fashion Street Lane Near Maharajas Metro Station Ernakulam Shenoy's Junction, Shenoys, Kochi, Kerala 682011, India"
+      },
+      "fare": {
+        "total": 151.92,
+        "trip_charge": 148.92,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 10.53,
+        "uber_one_credits_earned": 18.89
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 151.92,
+          "timestamp": "4/10/26 12:18 pm",
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "Aryaman.",
+        "rating": 4.9
+      },
+      "map_image": "assets/maps/Palarivattom_to_Hotel_1.png"
+    },
+    {
+      "receipt_id": "Palarivattom_to_Hotel_2",
+      "source_file": "Palarivattom to Hotel 2.pdf",
+      "receipt_date": "Apr 15, 2026",
+      "receipt_time": "12:41 pm",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": "KL41N5080",
+      "distance_km": 6.46,
+      "duration_min": 22,
+      "pickup": {
+        "time": "12:43 pm",
+        "address": "INDRAPRASTHA Building, Elamakkara, Kochi, Kerala 682026, India"
+      },
+      "dropoff": {
+        "time": "1:05 pm",
+        "address": "T.D Junction, Warriam Rd, Ernakulam South, Kochi, Kerala 682016, India"
+      },
+      "fare": {
+        "total": 142.33,
+        "trip_charge": 139.33,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 9.85,
+        "uber_one_credits_earned": 9.81
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 142.33,
+          "timestamp": "4/15/26 1:05 pm",
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "SONIYA.",
+        "rating": 4.96
+      },
+      "map_image": "assets/maps/Palarivattom_to_Hotel_2.png"
+    },
+    {
+      "receipt_id": "Palarivattom_to_Palluruthy",
+      "source_file": "Palarivattom to Palluruthy.pdf",
+      "receipt_date": "Apr 10, 2026",
+      "receipt_time": "12:00 pm",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": "KL43R8892",
+      "distance_km": 13.0,
+      "duration_min": 38,
+      "pickup": {
+        "time": "12:00 pm",
+        "address": "INDRAPRASTHA Building, Elamakkara, Kochi, Kerala 682026, India"
+      },
+      "dropoff": {
+        "time": "12:38 pm",
+        "address": "W7J9+FFX, Baby Marine Rd, Thoppumpady, Kochi, Kerala 682005, India"
+      },
+      "fare": {
+        "total": 299.94,
+        "trip_charge": 296.94,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 20.99,
+        "uber_one_credits_earned": 29.69
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 299.94,
+          "timestamp": "4/10/26 12:38 pm",
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "Mahesh.",
+        "rating": 4.9
+      },
+      "map_image": "assets/maps/Palarivattom_to_Palluruthy.png"
+    },
+    {
+      "receipt_id": "Palluruthy_to_Hotel_1",
+      "source_file": "Palluruthy to Hotel 1.pdf",
+      "receipt_date": "Apr 8, 2026",
+      "receipt_time": "1:17 pm",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": "KL48N0578",
+      "distance_km": 9.95,
+      "duration_min": 18,
+      "pickup": {
+        "time": "1:18 pm",
         "address": "W7J9+FFX, Baby Marine Rd, Thoppumpady, Kochi, Kerala 682005, India"
       },
       "dropoff": {
-        "time": "1:54 pm",
+        "time": "1:36 pm",
         "address": "2011 M.G Road, AK Sheshadri Fashion Street Lane Near Maharajas Metro Station Ernakulam Shenoy's Junction, Shenoys, Kochi, Kerala 682011, India"
       },
       "fare": {
@@ -51,274 +625,145 @@
         "suggested_fare": null,
         "booking_fee": null,
         "insurance": 3.0,
-        "gst_included": 13.91,
+        "gst_included": 13.92,
         "uber_one_credits_earned": null
       },
       "payments": [
         {
           "method": "Cash",
           "amount": 199.95,
-          "timestamp": "4/10/26 1:54 pm",
+          "timestamp": "4/08/26 1:37 pm",
           "status": "Success"
         }
       ],
       "driver": {
-        "name": "Mohammed Rinas",
-        "rating": 4.94
+        "name": "Prajeesh N.K.",
+        "rating": 4.76
       },
-      "map_image": "assets/maps/Hotel_1_to_Pallaruthy.png"
+      "map_image": "assets/maps/Palluruthy_to_Hotel_1.png"
     },
     {
-      "receipt_id": "Hotel_2_to_Kalmassery",
-      "source_file": "Hotel 2 to Kalmassery.pdf",
-      "receipt_date": "Apr 14, 2026",
-      "receipt_time": "4:21 pm",
+      "receipt_id": "Palluruthy_to_Hotel_2",
+      "source_file": "Palluruthy to Hotel 2.pdf",
+      "receipt_date": "Apr 21, 2026",
+      "receipt_time": "12:00 pm",
       "rider_name": "Dyrus",
       "vehicle_type": "Uber Go",
-      "license_plate": "KL39T9565",
-      "distance_km": 11.14,
-      "duration_min": 33,
-      "pickup": {
-        "time": "4:24 pm",
-        "address": "39/1960, Durbar Hall Rd, Ernakulam South, Kochi, Kerala 682016, India"
-      },
-      "dropoff": {
-        "time": "4:58 pm",
-        "address": "No 32/213, Building, near South Kalamassery Over Bridge, South Kalamassery, Kalamassery, Kochi, Kerala 682033, India"
-      },
-      "fare": {
-        "total": 269.95,
-        "trip_charge": 266.95,
-        "suggested_fare": null,
-        "booking_fee": null,
-        "insurance": 3.0,
-        "gst_included": 18.94,
-        "uber_one_credits_earned": 24.8
-      },
-      "payments": [
-        {
-          "method": "Cash",
-          "amount": 269.95,
-          "timestamp": "4/14/26 4:58 pm",
-          "status": "Success"
-        },
-        {
-          "method": "UPI Scan and Pay",
-          "amount": 269.95,
-          "timestamp": "4/14/26 5:18 pm",
-          "status": "Failed"
-        }
-      ],
-      "driver": {
-        "name": "NIDHIN",
-        "rating": 5.0
-      },
-      "map_image": "assets/maps/Hotel_2_to_Kalmassery.png"
-    },
-    {
-      "receipt_id": "Hotel_2_to_Pallarivattom",
-      "source_file": "Hotel 2 to Pallarivattom.pdf",
-      "receipt_date": "Apr 15, 2026",
-      "receipt_time": "12:41 pm",
-      "rider_name": "Dyrus",
-      "vehicle_type": "Auto",
-      "license_plate": "KL41N5080",
-      "distance_km": 6.46,
-      "duration_min": 18,
-      "pickup": {
-        "time": "12:43 pm",
-        "address": "T.D Junction, Warriam Rd, Ernakulam South, Kochi, Kerala 682016, India"
-      },
-      "dropoff": {
-        "time": "1:02 pm",
-        "address": "INDRAPRASTHA Building, Elamakkara, Kochi, Kerala 682026, India"
-      },
-      "fare": {
-        "total": 101.05,
-        "trip_charge": null,
-        "suggested_fare": 97.05,
-        "booking_fee": 1.0,
-        "insurance": 3.0,
-        "gst_included": null,
-        "uber_one_credits_earned": 9.81
-      },
-      "payments": [
-        {
-          "method": "Cash",
-          "amount": 101.05,
-          "timestamp": "4/15/26 1:02 pm",
-          "status": "Success"
-        }
-      ],
-      "driver": {
-        "name": "SONIYA",
-        "rating": 4.96
-      },
-      "map_image": "assets/maps/Hotel_2_to_Pallarivattom.png"
-    },
-    {
-      "receipt_id": "Kalamassery_to_Hotel_2",
-      "source_file": "Kalamassery to Hotel 2.pdf",
-      "receipt_date": "Apr 14, 2026",
-      "receipt_time": "5:04 pm",
-      "rider_name": "Dyrus",
-      "vehicle_type": "Auto",
-      "license_plate": "KL07CF7641",
-      "distance_km": 11.21,
-      "duration_min": 37,
-      "pickup": {
-        "time": "5:14 pm",
-        "address": "94, TOG Rd, South Kalamassery, Kalamassery, Kochi, Kerala 682033, India"
-      },
-      "dropoff": {
-        "time": "5:52 pm",
-        "address": "warriam road Opposite Lotus Club, Jose Junction, Pallimukku, Kochi, Kerala 682016, India"
-      },
-      "fare": {
-        "total": 251.95,
-        "trip_charge": null,
-        "suggested_fare": 247.95,
-        "booking_fee": 1.0,
-        "insurance": 3.0,
-        "gst_included": null,
-        "uber_one_credits_earned": 24.9
-      },
-      "payments": [
-        {
-          "method": "Cash",
-          "amount": 251.95,
-          "timestamp": "4/14/26 5:52 pm",
-          "status": "Success"
-        }
-      ],
-      "driver": {
-        "name": "CHANDRAN.",
-        "rating": 4.68
-      },
-      "map_image": "assets/maps/Kalamassery_to_Hotel_2.png"
-    },
-    {
-      "receipt_id": "Pallarivattom_to_Kalmassery",
-      "source_file": "Pallarivattom to Kalmassery.pdf",
-      "receipt_date": "Apr 8, 2026",
-      "receipt_time": "12:49 pm",
-      "rider_name": "Dyrus",
-      "vehicle_type": "Auto",
-      "license_plate": "KL07DF8963",
-      "distance_km": 6.06,
-      "duration_min": 13,
-      "pickup": {
-        "time": "12:57 pm",
-        "address": "INDRAPRASTHA Building, Elamakkara, Kochi, Kerala 682026, India"
-      },
-      "dropoff": {
-        "time": "1:11 pm",
-        "address": "No 32/213, Building, near South Kalamassery Over Bridge, South Kalamassery, Kalamassery, Kochi, Kerala 682033, India"
-      },
-      "fare": {
-        "total": 141.43,
-        "trip_charge": null,
-        "suggested_fare": 137.43,
-        "booking_fee": 1.0,
-        "insurance": 3.0,
-        "gst_included": null,
-        "uber_one_credits_earned": null
-      },
-      "payments": [
-        {
-          "method": "Cash",
-          "amount": 141.43,
-          "timestamp": "4/8/26 1:11 pm",
-          "status": "Success"
-        }
-      ],
-      "driver": {
-        "name": "JOBI PALAKKAPARAMBIL JACOB",
-        "rating": 4.95
-      },
-      "map_image": "assets/maps/Pallarivattom_to_Kalmassery.png"
-    },
-    {
-      "receipt_id": "Pallaruthy_to_Hotel_1",
-      "source_file": "Pallaruthy to Hotel 1.pdf",
-      "receipt_date": "Apr 8, 2026",
-      "receipt_time": "3:04 pm",
-      "rider_name": "Dyrus",
-      "vehicle_type": "Uber Go",
-      "license_plate": "KL41W2199",
-      "distance_km": 7.09,
-      "duration_min": 20,
-      "pickup": {
-        "time": "3:09 pm",
-        "address": "W7J9+FFX, Baby Marine Rd, Thoppumpady, Kochi, Kerala 682005, India"
-      },
-      "dropoff": {
-        "time": "3:30 pm",
-        "address": "2011 M.G Road, AK Sheshadri Fashion Street Lane Near Maharajas Metro Station Ernakulam Shenoy's Junction, Shenoys, Kochi, Kerala 682011, India"
-      },
-      "fare": {
-        "total": 189.93,
-        "trip_charge": 186.93,
-        "suggested_fare": null,
-        "booking_fee": null,
-        "insurance": 3.0,
-        "gst_included": 12.34,
-        "uber_one_credits_earned": null
-      },
-      "payments": [
-        {
-          "method": "Cash",
-          "amount": 189.93,
-          "timestamp": "4/8/26 3:30 pm",
-          "status": "Success"
-        }
-      ],
-      "driver": {
-        "name": "AJAS",
-        "rating": 4.98
-      },
-      "map_image": "assets/maps/Pallaruthy_to_Hotel_1.png"
-    },
-    {
-      "receipt_id": "Pallaruthy_to_Hotel_2",
-      "source_file": "Pallaruthy to Hotel 2.pdf",
-      "receipt_date": "Apr 15, 2026",
-      "receipt_time": "1:49 pm",
-      "rider_name": "Dyrus",
-      "vehicle_type": "Uber Go",
-      "license_plate": "KL32X3564",
+      "license_plate": "KL07DJ5590",
       "distance_km": 6.42,
       "duration_min": 12,
       "pickup": {
-        "time": "1:54 pm",
+        "time": "12:00 pm",
         "address": "W7J9+FFX, Baby Marine Rd, Thoppumpady, Kochi, Kerala 682005, India"
       },
       "dropoff": {
-        "time": "2:07 pm",
+        "time": "12:12 pm",
         "address": "warriam road Opposite Lotus Club, Jose Junction, Pallimukku, Kochi, Kerala 682016, India"
       },
       "fare": {
-        "total": 189.96,
-        "trip_charge": 186.96,
+        "total": 192.96,
+        "trip_charge": 189.96,
         "suggested_fare": null,
         "booking_fee": null,
         "insurance": 3.0,
         "gst_included": 13.43,
-        "uber_one_credits_earned": 17.35
+        "uber_one_credits_earned": 18.99
       },
       "payments": [
         {
-          "method": "UPI Scan and Pay",
-          "amount": 189.96,
-          "timestamp": "4/15/26 2:07 pm",
+          "method": "Cash",
+          "amount": 192.96,
+          "timestamp": "4/21/26 12:12 pm",
           "status": "Success"
         }
       ],
       "driver": {
-        "name": "PRAJEESH.N.K",
-        "rating": 4.89
+        "name": "Ayush.",
+        "rating": 4.9
       },
-      "map_image": "assets/maps/Pallaruthy_to_Hotel_2.png"
+      "map_image": "assets/maps/Palluruthy_to_Hotel_2.png"
+    },
+    {
+      "receipt_id": "Palluruthy_to_Kalamassery",
+      "source_file": "Palluruthy to Kalamassery.pdf",
+      "receipt_date": "Apr 8, 2026",
+      "receipt_time": "4:38 pm",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": "KL07CC4129",
+      "distance_km": 17.9,
+      "duration_min": 44,
+      "pickup": {
+        "time": "4:40 pm",
+        "address": "W7J9+FFX, Baby Marine Rd, Thoppumpady, Kochi, Kerala 682005, India"
+      },
+      "dropoff": {
+        "time": "5:24 pm",
+        "address": "No 32/213, Building, near South Kalamassery Over Bridge, South Kalamassery, Kalamassery, Kochi, Kerala 682033, India"
+      },
+      "fare": {
+        "total": 387.56,
+        "trip_charge": 384.56,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 27.19,
+        "uber_one_credits_earned": null
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 387.56,
+          "timestamp": null,
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "Anoop George.",
+        "rating": 4.96
+      },
+      "map_image": "assets/maps/Palluruthy_to_Kalamassery.png"
+    },
+    {
+      "receipt_id": "Palluruthy_to_Palarivattom",
+      "source_file": "Palluruthy to Palarivattom.pdf",
+      "receipt_date": "Apr 21, 2026",
+      "receipt_time": "11:57 am",
+      "rider_name": "Dyrus",
+      "vehicle_type": "Uber Go",
+      "license_plate": "KL07DJ0231",
+      "distance_km": 12.98,
+      "duration_min": 40,
+      "pickup": {
+        "time": "12:00 pm",
+        "address": "W7J9+FFX, Baby Marine Rd, Thoppumpady, Kochi, Kerala 682005, India"
+      },
+      "dropoff": {
+        "time": "12:40 pm",
+        "address": "INDRAPRASTHA Building, Elamakkara, Kochi, Kerala 682026, India"
+      },
+      "fare": {
+        "total": 312.84,
+        "trip_charge": 309.84,
+        "suggested_fare": null,
+        "booking_fee": null,
+        "insurance": 3.0,
+        "gst_included": 21.91,
+        "uber_one_credits_earned": 30.98
+      },
+      "payments": [
+        {
+          "method": "Cash",
+          "amount": 312.84,
+          "timestamp": "4/21/26 12:40 pm",
+          "status": "Success"
+        }
+      ],
+      "driver": {
+        "name": "Stallone.",
+        "rating": 4.9
+      },
+      "map_image": "assets/maps/Palluruthy_to_Palarivattom.png"
     }
   ]
 }
