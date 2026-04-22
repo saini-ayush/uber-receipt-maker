@@ -68,6 +68,18 @@ def _sync_payment_from_date():
         st.session_state.receipt_date, st.session_state.dropoff_time)
 
 
+def _sync_uber_one_credits():
+    ss = st.session_state
+    if not ss.is_uber_one:
+        ss.uber_one_credits = 0.0
+        return
+    if ss.vehicle_type == "Uber Go":
+        total = pdf_generator.uber_go_total(ss.trip_charge)
+    else:
+        total = pdf_generator.auto_total(ss.suggested_fare)
+    ss.uber_one_credits = round(total * 0.10, 2)
+
+
 def _prefill_from_template(t: dict):
     """Overwrite all form session-state keys from a template dict."""
 
@@ -219,22 +231,25 @@ def _step1():
     st.subheader("Fare")
     if st.session_state.vehicle_type == "Uber Go":
         tc = st.number_input("Trip Charge (\u20b9, GST already inside)",
-                             min_value=0.0, step=0.50, format="%.2f", key="trip_charge")
+                             min_value=0.0, step=0.50, format="%.2f", key="trip_charge",
+                             on_change=_sync_uber_one_credits)
         gst = pdf_generator.calc_gst(tc)
         total = pdf_generator.uber_go_total(tc)
         st.caption(f"GST included: \u20b9{gst:.2f}  |  Insurance: \u20b93.00  |  "
                    f"**Total: \u20b9{total:.2f}**")
     else:
         sf = st.number_input("Suggested Fare (\u20b9)",
-                             min_value=0.0, step=0.50, format="%.2f", key="suggested_fare")
+                             min_value=0.0, step=0.50, format="%.2f", key="suggested_fare",
+                             on_change=_sync_uber_one_credits)
         total = pdf_generator.auto_total(sf)
         st.caption(f"Booking fee: \u20b91.00  |  Insurance: \u20b93.00  |  "
                    f"**Total: \u20b9{total:.2f}**")
 
     st.checkbox("\u2295  Uber One subscriber (shows subscription badge on receipt)",
-                key="is_uber_one")
-    st.number_input("Uber One Credits Earned (\u20b9, enter 0 if none)",
-                    min_value=0.0, step=0.01, format="%.2f", key="uber_one_credits")
+                key="is_uber_one", on_change=_sync_uber_one_credits)
+    st.number_input("Uber One Credits Earned (\u20b9)",
+                    min_value=0.0, step=0.01, format="%.2f", key="uber_one_credits",
+                    help="Auto-calculated at 10% of total when Uber One is enabled. Edit to override.")
 
     c1, c2 = st.columns(2)
     with c1:
